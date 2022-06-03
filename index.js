@@ -9,17 +9,31 @@ const typeDefs = gql`
     greeting: String
     urls: [String]
     randomDiceThrow: Int
+    pi: Float
+    isSpring: Boolean
+    randomCointTossesUntilTrue: [Boolean]
   }
 `;
 
 function rootValue() {
   const getRandomDiceThrow = (sides) => Math.ceil(Math.random() * sides);
-  const data = {
+  const randomCointToss = () => Math.random() > 0.5;
+  const getRandomCointTossesUntilTrue = () => {
+    const result = [];
+    do {
+      result.push(randomCointToss());
+    } while (!result[result.length - 1]);
+    return result;
+  };
+
+  return {
     greeting: "Hello Misha!",
     urls: ["https://github.com/MishanyaZh"],
     randomDiceThrow: getRandomDiceThrow(5),
+    pi: Math.PI,
+    isSpring: true,
+    randomCointTossesUntilTrue: getRandomCointTossesUntilTrue,
   };
-  return data;
 }
 const server = new ApolloServer({
   typeDefs,
@@ -29,7 +43,6 @@ const server = new ApolloServer({
 });
 
 server.listen({ port: PORT }).then((result) => console.log(result.url));
-console.log("HELLO");
 
 // const server = new ApolloServer({
 //   typeDefs: fs.readFileSync(path.join(__dirname, "schema.graphql"), "utf8"),
