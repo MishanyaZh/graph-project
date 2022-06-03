@@ -8,15 +8,22 @@ const typeDefs = gql`
   type Query {
     greeting: String
     urls: [String]
+    randomDiceThrow: Int
   }
 `;
-const data = {
-  greeting: "Hello Misha!",
-  urls: ["https://github.com/MishanyaZh"],
-};
+
+function rootValue() {
+  const getRandomDiceThrow = (sides) => Math.ceil(Math.random() * sides);
+  const data = {
+    greeting: "Hello Misha!",
+    urls: ["https://github.com/MishanyaZh"],
+    randomDiceThrow: getRandomDiceThrow(5),
+  };
+  return data;
+}
 const server = new ApolloServer({
   typeDefs,
-  rootValue: data,
+  rootValue,
   playground: true,
   introspection: true,
 });
