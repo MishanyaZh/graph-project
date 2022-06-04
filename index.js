@@ -10,13 +10,26 @@ const typeDefs = gql`
     urls: [String]
     randomDiceThrow: Int
     pi: Float
-    isSpring: Boolean
+    isTodaySat: Boolean
     randomCointTossesUntilTrue: [Boolean]
+    today: DayOfWeek
+    workDays: [DayOfWeek]
+  }
+  enum DayOfWeek {
+    MON
+    TUE
+    WED
+    THU
+    FRI
+    SAT
+    SUN
   }
 `;
 
 function rootValue() {
-  const getRandomDiceThrow = (sides) => Math.ceil(Math.random() * sides);
+  const today = new Date();
+  const DAYS_OF_WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const getRandomDiceThrow = (sides = 6) => Math.ceil(Math.random() * sides);
   const randomCointToss = () => Math.random() > 0.5;
   const getRandomCointTossesUntilTrue = () => {
     const result = [];
@@ -29,10 +42,12 @@ function rootValue() {
   return {
     greeting: "Hello Misha!",
     urls: ["https://github.com/MishanyaZh"],
-    randomDiceThrow: getRandomDiceThrow(5),
+    randomDiceThrow: getRandomDiceThrow(),
     pi: Math.PI,
-    isSpring: true,
+    isTodaySat: today.getDay() === 6,
     randomCointTossesUntilTrue: getRandomCointTossesUntilTrue,
+    today: DAYS_OF_WEEK[today.getDay()],
+    workDays: DAYS_OF_WEEK.slice(1, 6),
   };
 }
 const server = new ApolloServer({
