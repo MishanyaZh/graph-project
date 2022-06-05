@@ -6,14 +6,15 @@ const PORT = process.env.PORT || 4000;
 
 const typeDefs = gql`
   type Query {
-    greeting: String
-    urls: [String]
-    randomDiceThrow: Int
-    pi: Float
-    isTodaySat: Boolean
-    randomCointTossesUntilTrue: [Boolean]
-    today: DayOfWeek
-    workDays: [DayOfWeek]
+    greeting: String!
+    greetingCat: String
+    urls: [String!]!
+    randomDiceThrow: Int!
+    pi: Float!
+    isTodaySat: Boolean!
+    randomCointTossesUntilTrue: [Boolean!]!
+    today: DayOfWeek!
+    workDays: [DayOfWeek!]!
   }
   enum DayOfWeek {
     MON
@@ -41,6 +42,7 @@ function rootValue() {
 
   return {
     greeting: "Hello Misha!",
+    greetingCat: randomCointToss() ? "Meow" : null,
     urls: ["https://github.com/MishanyaZh"],
     randomDiceThrow: getRandomDiceThrow(),
     pi: Math.PI,
