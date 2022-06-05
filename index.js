@@ -1,11 +1,15 @@
 const { ApolloServer, gql } = require("apollo-server");
+const Quote = require("inspirational-quotes");
 const PORT = process.env.PORT || 4000;
 
 // const fs = require("fs");
 // const path = require("path");
 
 const typeDefs = gql`
-  type Query {
+  schema {
+    query: MyQuery
+  }
+  type MyQuery {
     greeting: String!
     greetingCat: String
     urls: [String!]!
@@ -15,7 +19,14 @@ const typeDefs = gql`
     randomCointTossesUntilTrue: [Boolean!]!
     today: DayOfWeek!
     workDays: [DayOfWeek!]!
+    randomQuote: Quote!
   }
+
+  type Quote {
+    text: String!
+    author: String!
+  }
+
   enum DayOfWeek {
     MON
     TUE
@@ -50,6 +61,7 @@ function rootValue() {
     randomCointTossesUntilTrue: getRandomCointTossesUntilTrue,
     today: DAYS_OF_WEEK[today.getDay()],
     workDays: DAYS_OF_WEEK.slice(1, 6),
+    randomQuote: Quote.getQuote(),
   };
 }
 const server = new ApolloServer({
