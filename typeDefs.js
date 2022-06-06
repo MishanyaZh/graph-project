@@ -25,7 +25,9 @@ const typeDefs = gql`
     "workDays description array"
     workDays: [DayOfWeek!]!
     "randomQuote"
-    randomQuote: Quote!
+    randomQuoteTheDay: Quote!
+    "randomMovieQuote"
+    randomMovieQuote: String!
   }
 
   """

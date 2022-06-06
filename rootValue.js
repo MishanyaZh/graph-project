@@ -1,4 +1,5 @@
 const Quote = require("inspirational-quotes");
+const movieQuote = require("popular-movie-quotes");
 
 function rootValue() {
   const today = new Date();
@@ -23,7 +24,8 @@ function rootValue() {
     randomCointTossesUntilTrue: getRandomCointTossesUntilTrue,
     today: DAYS_OF_WEEK[today.getDay()],
     workDays: DAYS_OF_WEEK.slice(1, 6),
-    randomQuote: Quote.getQuote(),
+    randomQuoteTheDay: Quote.getQuote(),
+    randomMovieQuote: movieQuote.getRandomQuote(),
   };
 }
 
