@@ -4,6 +4,23 @@ const typeDefs = gql`
   schema {
     query: MyQuery
   }
+
+  type MyQuery {
+    books: [Book!]!
+    authors: [Author!]!
+    users: [User!]!
+  }
+  type Book {
+    title: String!
+  }
+  type Author {
+    name: String!
+  }
+  type User {
+    name: String!
+    email: String!
+  }
+
   """
   # The object represeting a MyQuery:
   ## It contains a description MyQuery
