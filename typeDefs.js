@@ -6,19 +6,29 @@ const typeDefs = gql`
   }
 
   type MyQuery {
-    books: [Book!]!
     authors: [Author!]!
+    books: [Book!]!
     users: [User!]!
-  }
-  type Book {
-    title: String!
   }
   type Author {
     name: String!
+    photo: Image!
+  }
+  type Book {
+    title: String!
+    cover: Image!
   }
   type User {
     name: String!
     email: String!
+    avatar: Avatar!
+  }
+  type Image {
+    url: String!
+  }
+  type Avatar {
+    image: Image!
+    color: String!
   }
 
   """
