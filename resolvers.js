@@ -20,7 +20,7 @@ const resolvers = {
   //     }),
   //   },
   Image: {
-    url: (parent) => BASE_ASSETS_URL + parent.path,
+    url: (parent, args, context) => context.baseAssetsUrl + parent.path,
   },
 };
 
