@@ -7,20 +7,25 @@ const typeDefs = gql`
     authors: [Author!]!
     books: [Book!]!
     users: [User!]!
+    book(id: Int!): Book
   }
   type Author {
     name: String!
     photo: Image!
-    books: [Book]
+    books: [Book!]!
+    bio: String!
   }
   type Book {
+    id: Int!
     title: String!
     cover: Image!
-    author: Author
+    description: String!
+    author: Author!
   }
   type User {
     name: String!
     email: String!
+    info: String!
     avatar: Avatar!
   }
   type Image {
