@@ -4,6 +4,8 @@ const resolvers = {
     authors: (rootValue, args, { db }) => db.getAllAuthors(),
     users: (rootValue, args, { db }) => db.getAllUsers(),
     book: (rootValue, { id }, { db }) => db.getBookById(id),
+    author: (rootValue, { id }, { db }) => db.getAuthorById(id),
+    user: (rootValue, { id }, { db }) => db.getUserById(id),
   },
   Book: {
     author: (book, args, { db }) => db.getAuthorById(book.authorId),
