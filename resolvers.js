@@ -6,6 +6,23 @@ const toExternalId = (dbId, type) => encodeBase64(`${type}-${dbId}`);
 const toTypeAndDbId = (externalId) => decodeBase64(externalId).split("-", 2);
 const toDbId = (externalId) => toTypeAndDbId(externalId)[1];
 
+const getAnythingByExternalId = (externalId, db) => {
+  const [type, dbId] = toTypeAndDbId(externalId);
+
+  switch (type) {
+    case "Book": {
+      return db.getBookById(dbId);
+    }
+    case "Author": {
+      return db.getAuthorById(dbId);
+    }
+    case "User": {
+      return db.getUserById(dbId);
+    }
+    default:
+      return null;
+  }
+};
 const resolvers = {
   Query: {
     books: (rootValue, { searchQuery }, { db, search }) =>
@@ -15,6 +32,7 @@ const resolvers = {
     book: (rootValue, { id }, { db }) => db.getBookById(toDbId(id)),
     author: (rootValue, { id }, { db }) => db.getAuthorById(toDbId(id)),
     user: (rootValue, { id }, { db }) => db.getUserById(toDbId(id)),
+    anything: (rootValue, { id }, { db }) => getAnythingByExternalId(id, db),
   },
   Book: {
     id: (book) => toExternalId(book.id, "Book"),
@@ -40,6 +58,20 @@ const resolvers = {
   },
   User: {
     id: (user) => toExternalId(user.id, "User"),
+  },
+  Anything: {
+    __resolveType: (anything) => {
+      if (anything.title) {
+        return "Book";
+      }
+      if (anything.bio) {
+        return "Author";
+      }
+      if (anything.info) {
+        return "User";
+      }
+      return null;
+    },
   },
 };
 
