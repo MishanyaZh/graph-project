@@ -6,7 +6,7 @@ const typeDefs = gql`
   type Query {
     authors: [Author!]!
     author(id: ID!): Author
-    books: [Book!]!
+    books(searchQuery: String! = ""): [Book!]!
     book(id: ID!): Book
     users: [User!]!
     user(id: ID!): User

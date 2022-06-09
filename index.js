@@ -2,6 +2,7 @@ const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
 const db = require("./db");
+const { Search } = require("./search");
 
 const PORT = process.env.PORT || 4000;
 const BASE_ASSETS_URL =
@@ -12,6 +13,7 @@ const server = new ApolloServer({
   resolvers,
   context: {
     db,
+    search: new Search(db),
     baseAssetsUrl: BASE_ASSETS_URL,
   },
   playground: true,
