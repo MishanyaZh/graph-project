@@ -1,5 +1,10 @@
-const toDbId = (externalId) => Buffer.from(externalId, "base64").toString();
-const toExternalId = (dbId) => Buffer.from(dbId).toString("base64");
+const decodeBase64 = (base64String) =>
+  Buffer.from(base64String, "base64").toString();
+const encodeBase64 = (rawString) => Buffer.from(rawString).toString("base64");
+
+const toExternalId = (dbId, type) => encodeBase64(`${type}-${dbId}`);
+const toTypeAndDbId = (externalId) => decodeBase64(externalId).split("-", 2);
+const toDbId = (externalId) => toTypeAndDbId(externalId)[1];
 
 const resolvers = {
   Query: {
@@ -12,14 +17,14 @@ const resolvers = {
     user: (rootValue, { id }, { db }) => db.getUserById(toDbId(id)),
   },
   Book: {
-    id: (book) => toExternalId(book.id),
+    id: (book) => toExternalId(book.id, "Book"),
     author: (book, args, { db }) => db.getAuthorById(book.authorId),
     cover: (book) => ({
       path: book.coverPath,
     }),
   },
   Author: {
-    id: (author) => toExternalId(author.id),
+    id: (author) => toExternalId(author.id, "Author"),
     books: (author, args, { db }) => author.bookIds.map(db.getBookById),
     photo: (author) => ({
       path: author.photoPath,
@@ -34,7 +39,7 @@ const resolvers = {
     url: (image, args, { baseAssetsUrl }) => baseAssetsUrl + image.path,
   },
   User: {
-    id: (user) => toExternalId(user.id),
+    id: (user) => toExternalId(user.id, "User"),
   },
 };
 
