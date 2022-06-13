@@ -33,6 +33,11 @@ const resolvers = {
     author: (rootValue, { id }, { db }) => db.getAuthorById(toDbId(id)),
     user: (rootValue, { id }, { db }) => db.getUserById(toDbId(id)),
     anything: (rootValue, { id }, { db }) => getAnythingByExternalId(id, db),
+    everything: (rootValue, args, { db }) => [
+      ...db.getAllBooks(),
+      ...db.getAllBooks(),
+      ...db.getAllUsers(),
+    ],
   },
   Book: {
     id: (book) => toExternalId(book.id, "Book"),
