@@ -35,7 +35,7 @@ const resolvers = {
     anything: (rootValue, { id }, { db }) => getAnythingByExternalId(id, db),
     everything: (rootValue, args, { db }) => [
       ...db.getAllBooks(),
-      ...db.getAllBooks(),
+      ...db.getAllAuthors(),
       ...db.getAllUsers(),
     ],
   },
