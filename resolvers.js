@@ -1,14 +1,12 @@
 const decodeBase64 = (base64String) =>
   Buffer.from(base64String, "base64").toString();
 const encodeBase64 = (rawString) => Buffer.from(rawString).toString("base64");
-
 const toExternalId = (dbId, type) => encodeBase64(`${type}-${dbId}`);
 const toTypeAndDbId = (externalId) => decodeBase64(externalId).split("-", 2);
 const toDbId = (externalId) => toTypeAndDbId(externalId)[1];
 
 const getAnythingByExternalId = (externalId, db) => {
   const [type, dbId] = toTypeAndDbId(externalId);
-
   switch (type) {
     case "Book": {
       return db.getBookById(dbId);
